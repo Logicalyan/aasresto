@@ -1,19 +1,20 @@
 <?php
 
-use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MenuController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\TableController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\OrderItemsController;
+use App\Http\Controllers\ProfileController;
 
+//Admin
+use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\TableController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,33 +30,45 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/search', [HomeController::class, 'search'])->name('search');
+
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::get('/home/search', [HomeController::class, 'search'])->name('home.search');
+
+    //Route for see profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
     Route::resource('order', OrderController::class);
-    Route::post("addOrder", [OrderController::class, "addOrder"])->name("addOrder");
 
+    //Route for cart
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/add-cart/{id}', [CartController::class, 'addCart'])->name('post.cart');
+    Route::post('/add-cart/{id}', [CartController::class, 'store'])->name('post.cart');
     Route::delete('/cart-items/{id}', [CartController::class, 'destroy'])->name('cart-item.destroy');
 
-    // Route::get('/chart', [ChartController::class, 'index']);
-
-    Route::get('menu/detail/{id}', [HomeController::class, 'detailMenu'])->name('menu.details');
-
+    //Groupping route for admin access
     Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
+
+        //Home for Admin
         Route::get('/home', [AdminController::class, 'index'])->name('admin.home');
+
+        //Dashboard for admin
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
+        //Route For UserController
         Route::resource('user', UserController::class);
+
+        //Route For MenuController
         Route::resource('menu', MenuController::class);
+
+        //Route For CategoryController
         Route::resource('category', CategoryController::class);
+
+        //Route For TableController
         Route::resource('table', TableController::class);
 
-        Route::post('add-order', [OrderController::class, 'addOrder'])->name('post.order');
+        // Route::post('add-order', [OrderController::class, 'addOrder'])->name('post.order');
     });
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

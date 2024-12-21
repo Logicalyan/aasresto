@@ -15,6 +15,7 @@ class Order extends Model
         'table_id',
         'total_price',
         'status',
+        'review',
         'paid_amount',
         'change_amount'
     ];

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class OrderItemsController extends Controller
 {
     public function index(){
-
+        
         $orderItems = OrderItem::with('menu')->get();
         return view('order-items.index', compact('orderItems'));
     }

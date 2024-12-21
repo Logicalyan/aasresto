@@ -22,7 +22,7 @@
                         <!-- Modal header -->
                         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                             <h3 class="text-xl font-semibold text-gray-900">
-                                Tambah Data Menu
+                                Tambah Data Pengguna
                             </h3>
                             <button type="button"
                                 class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
@@ -46,11 +46,11 @@
                                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Nama</label>
                                     <input type="text" name="name" id="name"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                        placeholder="Masukkan Nama Menu" value="{{ old('name') }}">
+                                        placeholder="Masukkan Nama" value="{{ old('name') }}">
                                 </div>
                                 <div class="w-full">
                                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                                    <input type="email" name="email" id="email" placeholder="Masukkan Harga"
+                                    <input type="email" name="email" id="email" placeholder="Masukkan Email"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         value="{{ old('email') }}">
                                 </div>

@@ -15,16 +15,16 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('customer_name');
+            $table->string('review');
             $table->unsignedBigInteger('table_id');
-
-            $table->decimal('total_price', 10, 2); // Total harga pesanan
-            $table->decimal('paid_amount', 10, 2)->default(0);
-            $table->decimal('change_amount', 10, 2)->default(0);
-            $table->enum('status', ['pending', 'completed', 'cancelled'])->default('pending');
+            $table->double('paid_amount')->default(0);
+            $table->double('change_amount')->default(0);
+            $table->double('total_price');
+            // $table->double('tax');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // Relasi dengan tabel pengguna (misalnya admin atau kasir)
-            $table->foreign('table_id')->references('id')->on('tables')->onDelete('cascade'); // Relasi dengan tabel tables
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('table_id')->references('id')->on('tables')->onDelete('cascade');
         });
     }
 

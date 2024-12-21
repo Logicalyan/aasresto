@@ -1,18 +1,20 @@
 @extends('layouts.app')
 
 
-@if (Auth::user())
-    @section('title', 'Home')
+@auth
 
-    @section('content')
-    @include('components.navbar')
-    @include('components.sidebar')
-    @include('components.main')
+@section('title', 'Home')
 
-    @endsection
-@endif
+@section('content')
+@include('components.navbar')
+@include('components.sidebar')
+@include('components.main')
 
-@section('title', 'Landing Page')
+@endsection
+@endauth
+
+
+@section('title', 'Guest Home')
 
 @section('content')
 @include('guest.components.sidebar')

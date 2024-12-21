@@ -17,8 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('menu_id');
             $table->integer('quantity');
             $table->integer('price');
-            $table->integer('subtotal'); // Harga per item
-
+            $table->integer('subtotal');
             $table->timestamps();
 
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade'); // Relasi dengan tabel orders

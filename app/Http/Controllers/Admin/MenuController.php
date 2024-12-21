@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Menu;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
@@ -14,10 +17,22 @@ class MenuController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        $count = '';
+
+        // Periksa apakah user terautentikasi
+        if (auth()->check()) {
+            $user = auth()->user();
+            $cart = Cart::where('user_id', $user->id)->first();
+
+            if ($cart) {
+                $count = $cart->cartItems->sum('quantity'); // Hitung total item di keranjang
+            }
+        }
         $menus = Menu::all();
         $categories = Category::all();
 
-        return view('menu.index', compact(['menus', 'categories']));
+        return view('menu.index', compact(['menus', 'categories', 'count']));
     }
 
     /**

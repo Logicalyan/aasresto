@@ -5,14 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Menu;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::with('menu')->get();
-        $menus = Menu::with('category')->get();
-        $count = 0;
+        $keyword = $request->search;
+
+        $categories = Category::with(['menu' => function ($menus) use ($keyword) {
+            return $menus->where('name', 'like', '%' . $keyword . '%');
+        }])->when(isset($keyword), function ($query) use ($keyword) {
+            return $query->whereHas('menu', function ($menus) use ($keyword) {
+                $menus->where('name', 'like', '%' . $keyword . '%');
+            });
+        })->get();
+
+        $menus = Menu::with('category')->when(
+            isset($keyword),
+            function ($query) use ($keyword) {
+                return $query->where('name', 'like', '%' . $keyword . '%');
+            }
+        )->get();
+
+        $count = '';
 
         // Periksa apakah user terautentikasi
         if (auth()->check()) {
@@ -35,4 +51,6 @@ class HomeController extends Controller
 
         return view('details.index', compact('menu', 'categories'));
     }
+
+    public function search() {}
 }

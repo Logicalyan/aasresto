@@ -20,6 +20,8 @@ return new class extends Migration
             $table->text('desc');
             $table->string('image');
             $table->timestamps();
+            $table->softDeletes();
+
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });

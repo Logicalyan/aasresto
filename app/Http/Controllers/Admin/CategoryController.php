@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -10,8 +12,18 @@ class CategoryController extends Controller
 
     public function index(){
         $categories = Category::all();
+        $count = '';
 
-        return view('category.index', compact('categories'));
+        // Periksa apakah user terautentikasi
+        if (auth()->check()) {
+            $user = auth()->user();
+            $cart = Cart::where('user_id', $user->id)->first();
+
+            if ($cart) {
+                $count = $cart->cartItems->sum('quantity'); // Hitung total item di keranjang
+            }
+        }
+        return view('category.index', compact('categories', 'count'));
     }
 
     public function store(Request $request)

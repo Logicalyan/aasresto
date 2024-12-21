@@ -36,53 +36,15 @@
             {{-- End Button --}}
 
             <a href="" class="flex items-center justify-between mr-4">
-
-                <span class="self-center text-2xl font-semibold whitespace-nowrap text-blue-500">RestoApp</span>
+                <img src="{{ asset('assets/img/Logo-resto.png') }}" class="w-12" alt="">
+                {{-- <span class="self-center text-2xl font-semibold whitespace-nowrap text-blue-500">RestoApp</span> --}}
             </a>
-
-            {{-- Search --}}
-            <form action="{{ route('home.search') }}" method="GET" class="hidden md:block md:pl-2">
-                <label for="topbar-search" class="sr-only">Search</label>
-
-                {{-- Input Container --}}
-                <div class="relative md:w-64 md:w-96">
-                    {{-- Logo Container --}}
-                    <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
-                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z">
-                            </path>
-                        </svg>
-                    </div>
-                    {{-- End Container --}}
-                    <input type="text" name="search" id="topbar-search" value="{{ old('search') }}"
-                        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5"
-                        placeholder="Search" />
-
-                </div>
-                {{-- End Container --}}
-            </form>
-            {{-- End Search --}}
 
         </div>
         {{-- End Group Container Left --}}
 
         {{-- Group Container Right --}}
         <div class="flex items-center lg:order-2">
-            {{-- Button Search Responsive --}}
-            <button type="button" data-drawer-toggle="drawer-navigation" aria-controls="drawer-navigation"
-                class="p-2 mr-1 text-gray-500 rounded-lg md:hidden hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
-                <span class="sr-only">Toggle search</span>
-                <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path clip-rule="evenodd" fill-rule="evenodd"
-                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z">
-                    </path>
-                </svg>
-            </button>
-            {{-- End Button Search Responsive --}}
-
 
             @auth
                 <button type="button"
@@ -106,18 +68,19 @@
                     </div>
                     <ul class="py-1 text-gray-700" aria-labelledby="dropdown">
                         {{-- Profile --}}
-                        <li>
-                            <a href="#" class="block py-2 px-4 text-sm hover:bg-gray-100 ">My
+                        {{-- <li>
+                            <a href="{{ route('profile.index') }}" class="block py-2 px-4 text-sm hover:bg-gray-100 ">My
                                 profile</a>
-                        </li>
+                        </li> --}}
 
                         {{-- Account Settings --}}
-                        <li>
+                        {{-- <li>
                             <a href="#" class="block py-2 px-4 text-sm hover:bg-blue-500">Account
                                 settings</a>
-                        </li>
+                        </li> --}}
                     </ul>
-                    <ul class="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
+
+                    {{-- <ul class="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
                         <li>
                             <a href="#"
                                 class="flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><svg
@@ -141,13 +104,12 @@
                                 Collections</a>
                         </li>
                         </li>
-                    </ul>
+                    </ul> --}}
                     <ul class="py-1 text-gray-700" aria-labelledby="dropdown">
                         <li>
                             @auth
                                 <a href="{{ route('logout') }}"
-                                    class="block py-2 px-4 text-sm text-blue-600 rounded-md hover:bg-blue-600 hover">Sign
-                                    out
+                                    class="block py-2 px-4 text-sm text-blue-600 rounded-md hover:bg-blue-600 hover:text-white">Keluar akun
                                 </a>
                             @else
                                 <a href="{{ route('login') }}"
@@ -159,10 +121,6 @@
                     </ul>
                 </div>
                 {{-- End Profile Dropdown Menu --}}
-            @else
-                <a href="{{ route('login') }}" class="button">
-                    Login
-                </a>
             @endauth
 
         </div>

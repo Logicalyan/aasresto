@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Table;
 use Illuminate\Http\Request;
 
@@ -10,7 +12,19 @@ class TableController extends Controller
     public function index()
     {
         $tables = Table::all();
-        return view('tables.index', compact('tables'));
+        $count = '';
+
+        // Periksa apakah user terautentikasi
+        if (auth()->check()) {
+            $user = auth()->user();
+            $cart = Cart::where('user_id', $user->id)->first();
+
+            if ($cart) {
+                $count = $cart->cartItems->sum('quantity'); // Hitung total item di keranjang
+            }
+        }
+        return view('tables.index', compact('tables', 'count'));
+
     }
 
     public function store(Request $request)

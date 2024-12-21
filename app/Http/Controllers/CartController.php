@@ -16,7 +16,7 @@ class CartController extends Controller
         $user = auth()->user();
         $cart = Cart::where('user_id', $user->id)->first();
 
-        $count = 0;
+        $count = '';
 
         if ($cart) {
             $items = $cart->cartItems;
@@ -25,13 +25,14 @@ class CartController extends Controller
         } else {
             $items = [];
             $total = 0;
+            $count ='';
         }
 
         return view('cart.index', compact('items', 'count', 'total'));
     }
 
 
-    public function addCart(Request $request, $menu_id)
+    public function store(Request $request, $menu_id)
     {
         $user = auth()->user(); // Mengambil user yang sedang login
         if (!$user) {
@@ -61,7 +62,7 @@ class CartController extends Controller
             return back()->with('error', 'Not enough stock.');
         }
 
-        return back()->with('success', 'Item added to cart.');
+        return back()->with('success', 'Berhasil ditambahkan ke keranjang');
     }
 
 
@@ -98,6 +99,6 @@ class CartController extends Controller
         // Hapus item dari cart
         $cartItem->delete();
 
-        return back()->with('success', 'Item removed from cart.');
+        return back()->with('success', 'Item berhasil dihapus');
     }
 }

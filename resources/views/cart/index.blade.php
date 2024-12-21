@@ -10,6 +10,26 @@
     <!-- resources/views/cart/index.blade.php -->
 
     <section class="bg-white py-8 antialiased peer-checked:md:ml-16 md:ml-64 md:py-16">
+        @if (Session::get('success'))
+            <script>
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: "{{ Session::get('success') }}"
+                });
+            </script>
+        @endif
+
         <div class="mx-auto max-w-screen-xl px-2 2xl:px-0">
             <h2 class="text-xl font-semibold text-gray-900 sm:text-2xl">Keranjang</h2>
             <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
@@ -29,8 +49,7 @@
                                     <div class="flex items-center justify-between md:order-3 md:justify-end">
                                         <div class="flex items-center">
 
-                                            <div name=""
-                                                class="text-md">
+                                            <div name="" class="text-md">
                                                 Kuantitas: {{ $cartItem->quantity }}
                                             </div>
                                         </div>
@@ -53,12 +72,6 @@
                                         </div>
 
                                         <div class="flex items-center gap-4">
-                                            {{-- <button type="button" class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white">
-                        <svg class="me-1.5 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
-                        </svg>
-                        Add to Favorites
-                      </button> --}}
 
                                             <form action="{{ route('cart-item.destroy', $cartItem->id) }}" method="post">
                                                 @csrf
@@ -73,7 +86,7 @@
                                                             stroke-linejoin="round" stroke-width="2"
                                                             d="M6 18 17.94 6M18 18 6.06 6" />
                                                     </svg>
-                                                    Delete
+                                                    Hapus
                                                 </button>
                                             </form>
                                         </div>
@@ -94,7 +107,7 @@
                                 <div class="space-y-2">
                                     <dl class="flex items-center justify-between gap-4">
                                         <dt class="text-base font-normal text-gray-500 dark:text-gray-400">
-                                            {{ $price->menu->name }}</dt>
+                                            {{ $price->menu->name }}*{{ $price->quantity }}</dt>
                                         <dd class="text-base font-medium text-gray-900">
                                             Rp{{ number_format($price->subtotal) }}</dd>
                                     </dl>
@@ -108,18 +121,22 @@
                             </dl>
                         </div>
 
-                        <form action="{{ route('addOrder') }}" method="post">
+                        <a href="{{ route('order.create') }}"  class=" flex w-full bg-blue-500 text-white items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-black hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300">
+                            Buat Pesanan
+
+                        </a>
+
+                        {{-- <form action="{{ route('addOrder') }}" method="post">
                             @csrf
                             <button type="submit"
-                            class=" flex w-full bg-blue-500 text-white items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-black hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300">Lanjutkan
-                            ke Pembayaran</button>
-                        </form>
+                                class=" flex w-full bg-blue-500 text-white items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-black hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300">Buat Pesanan</button>
+                        </form> --}}
 
                         <div class="flex items-center justify-center gap-2">
                             <span class="text-sm font-normal text-gray-500 dark:text-gray-400"> atau </span>
                             <a href="{{ route('home') }}" title=""
                                 class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">
-                                Tambah Pesanan
+                                Tambah Item
                                 <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                     viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"

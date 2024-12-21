@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -14,7 +16,18 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('user.index', compact('users'));
+        $count = '';
+
+        // Periksa apakah user terautentikasi
+        if (auth()->check()) {
+            $user = auth()->user();
+            $cart = Cart::where('user_id', $user->id)->first();
+
+            if ($cart) {
+                $count = $cart->cartItems->sum('quantity'); // Hitung total item di keranjang
+            }
+        }
+        return view('user.index', compact('users', 'count'));
     }
 
     /**

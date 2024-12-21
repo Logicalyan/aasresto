@@ -22,7 +22,7 @@ class CartItem extends Model
         return $this->belongsTo(Cart::class);
     }
 
-    
+
     public function menu()
     {
         return $this->belongsTo(Menu::class);
